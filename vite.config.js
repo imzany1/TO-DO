@@ -6,7 +6,5 @@ export default defineConfig({
   base: '/TO-DO/',
   build: {
     outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: true,
   },
 })
