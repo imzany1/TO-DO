@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/heroElem";
 import Button from "./components/button";
@@ -6,20 +6,31 @@ import { IoCloseSharp } from "react-icons/io5";
 
 const App = () => {
   // const dataList = ;
-  const [datalist, setDatalist] = useState([
-    {
-      Title: "Learn React Fundamentals",
-      desc: "Complete an online course or tutorial series covering React basics, including components, state, props, and hooks. Practice building small components and understanding the React component lifecycle.",
-    },
-    {
-      Title: "Set Up Development Environment",
-      desc: "Install Node.js, npm, and create-react-app. Configure VS Code with React and ESLint extensions. Set up a new React project using create-react-app and familiarize yourself with the project structure.",
-    },
-    {
-      Title: "Design Todo List UI",
-      desc: "Create wireframes or mockups for the todo list app. Design components for task input, task list, individual task items, and potential features like editing, deleting, and marking tasks as complete.",
-    },
-  ]);
+  const [datalist, setDatalist] = useState(() => {
+    const savedTasks = localStorage.getItem("todo_tasks");
+    if (savedTasks) {
+      return JSON.parse(savedTasks);
+    } else {
+      return [
+        {
+          Title: "Learn React Fundamentals",
+          desc: "Complete an online course or tutorial series covering React basics, including components, state, props, and hooks. Practice building small components and understanding the React component lifecycle.",
+        },
+        {
+          Title: "Set Up Development Environment",
+          desc: "Install Node.js, npm, and create-react-app. Configure VS Code with React and ESLint extensions. Set up a new React project using create-react-app and familiarize yourself with the project structure.",
+        },
+        {
+          Title: "Design Todo List UI",
+          desc: "Create wireframes or mockups for the todo list app. Design components for task input, task list, individual task items, and potential features like editing, deleting, and marking tasks as complete.",
+        },
+      ];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("todo_tasks", JSON.stringify(datalist));
+  }, [datalist]);
 
   function submitHandler(e) {
     e.preventDefault();
