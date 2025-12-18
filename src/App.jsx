@@ -15,14 +15,17 @@ const App = () => {
         {
           Title: "Learn React Fundamentals",
           desc: "Complete an online course or tutorial series covering React basics, including components, state, props, and hooks. Practice building small components and understanding the React component lifecycle.",
+          completed: false,
         },
         {
           Title: "Set Up Development Environment",
           desc: "Install Node.js, npm, and create-react-app. Configure VS Code with React and ESLint extensions. Set up a new React project using create-react-app and familiarize yourself with the project structure.",
+          completed: false,
         },
         {
           Title: "Design Todo List UI",
           desc: "Create wireframes or mockups for the todo list app. Design components for task input, task list, individual task items, and potential features like editing, deleting, and marking tasks as complete.",
+          completed: false,
         },
       ];
     }
@@ -37,7 +40,8 @@ const App = () => {
     if (newTitle.trim() && newTask.trim()) {
       const newTaskObject = {
         Title: newTitle,
-        desc: newTask
+        desc: newTask,
+        completed: false,
       };
       setDatalist([...datalist, newTaskObject]);
       setNewTask("");
@@ -50,10 +54,21 @@ const App = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newTask, setNewTask] = useState("");
 
+  function deleteTask(index) {
+    const updatedList = datalist.filter((_, i) => i !== index);
+    setDatalist(updatedList);
+  }
+
+  function toggleCompleted(index) {
+    const updatedList = [...datalist];
+    updatedList[index].completed = !updatedList[index].completed;
+    setDatalist(updatedList);
+  }
+
   return (
     <>
       <Navbar />
-      <Hero Data={datalist} />
+      <Hero Data={datalist} deleteTask={deleteTask} toggleCompleted={toggleCompleted} />
       <div className="absolute bottom-5 right-5 ">
         <div
           className={`${openPopUp ? "hidden" : "None"}`}
